@@ -4,9 +4,18 @@ import pickle
 import matplotlib.pyplot as plt
 import netCDF4
 import numpy as np
+import torch
 from dateutil.parser import parse
 from matplotlib.colors import LogNorm
+from setproctitle import setproctitle
 from tool.evaluate import curl, divergence, laplacian
+from tool.nf2.evaluation.unpack import load_cube
+from tool.nf2.potential.potential_field import get_potential_field
+
+setproctitle("nf2")
+
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+os.environ["CUDA_VISIBLE_DEVICES"] = "3"
 
 
 def find_max_within(array_3d, h):
@@ -97,7 +106,7 @@ def calculate_metric(
     # between the magnetic field and the electrical current density
     sigma_i = norm_JxB / (norm_J * norm_B + eps)
     theta_i = np.arcsin(sigma_i)
-    theta_i_mean = theta_i.mean()
+    theta_i_mean = np.nanmean(theta_i)
     theta_i_mean = np.rad2deg(theta_i_mean)  # deg
 
     sigma_J = (norm_J * sigma_i).sum() / norm_J.sum()
@@ -249,22 +258,36 @@ def draw_projection(
     fig.suptitle(title, fontsize=30)
 
     plt.savefig(save_dir, dpi=160)
+    plt.close()
 
 
-def evaluate_single(nc_file, *args):
-    # ------------------------------------------------------------
-    obs_date = (
-        os.path.basename(nc_file).split(".")[0][6:].replace("_", "T")
-    )  # YYYYMMDD_HHMMSS (string)
+def load_nf2_file(nf2_file):
+    B = load_cube(nf2_file, progress=True)
+    B_pot = get_potential_field(B[:, :, 0, 2], B.shape[2], batch_size=int(1e3))
 
-    result_dir = os.path.join(
-        args[0].result_dir, obs_date
-    )  # result_dir / YYYYMMDD_HHMMSS
-    os.makedirs(result_dir, exist_ok=True)
+    Bx = B[..., 0]
+    By = B[..., 1]
+    Bz = B[..., 2]
 
-    obs_date = parse(obs_date)  # YYYYMMDD_HHMMSS (datetime)
+    Bx_pot = B_pot[..., 0]
+    By_pot = B_pot[..., 1]
+    Bz_pot = B_pot[..., 2]
 
-    # ------------------------------------------------------------
+    state = torch.load(nf2_file)
+    Mm_per_pixel = state["Mm_per_pixel"]
+    Nx, Ny, Nz = state["cube_shape"]
+    Lx = (Nx - 1) * Mm_per_pixel
+    Ly = (Ny - 1) * Mm_per_pixel
+    Lz = (Nz - 1) * Mm_per_pixel
+
+    x = np.linspace(0, Lx, Nx)
+    y = np.linspace(0, Ly, Ny)
+    z = np.linspace(0, Lz, Nz)
+
+    return x, y, z, Bx, By, Bz, Bx_pot, By_pot, Bz_pot
+
+
+def load_nc_file(nc_file):
     nc = netCDF4.Dataset(nc_file, "r")
 
     x = np.array(nc.variables["x"])  # Mm
@@ -278,6 +301,52 @@ def evaluate_single(nc_file, *args):
     Bx_pot = np.array(nc.variables["Bx_pot"]).transpose(2, 1, 0)  # G
     By_pot = np.array(nc.variables["By_pot"]).transpose(2, 1, 0)  # G
     Bz_pot = np.array(nc.variables["Bz_pot"]).transpose(2, 1, 0)  # G
+
+    return x, y, z, Bx, By, Bz, Bx_pot, By_pot, Bz_pot
+
+
+def parse_nc_file(nc_file):
+    obs_date = os.path.basename(nc_file).split(".")[0][6:].replace("_", "T")
+
+    return obs_date  # YYYYMMDD_HHMMSS (string)
+
+
+def parse_nf2_file(nf2_file):
+    obs_date = os.path.basename(nf2_file).split(".")[0][:-4].replace("_", "T")
+
+    return obs_date  # YYYYMMDD_HHMMSS (string)
+
+
+def evaluate_single(file, *args):
+    # ------------------------------------------------------------
+    ext = os.path.basename(file).split(".")[1]
+
+    if ext == "nc":
+        obs_date = parse_nc_file(file)
+
+    elif ext == "nf2":
+        obs_date = parse_nf2_file(file)
+
+    result_dir = os.path.join(
+        args[0].result_dir, obs_date
+    )  # result_dir / YYYYMMDD_HHMMSS
+    os.makedirs(result_dir, exist_ok=True)
+
+    obs_date = parse(obs_date)  # YYYYMMDD_HHMMSS (datetime)
+
+    result_pickle = os.path.join(result_dir, "result.pickle")
+
+    if os.path.exists(result_pickle):
+        with open(result_pickle, "rb") as f:
+            result = pickle.load(f)
+        return result
+
+    # ------------------------------------------------------------
+    if ext == "nc":
+        x, y, z, Bx, By, Bz, Bx_pot, By_pot, Bz_pot = load_nc_file(file)
+
+    elif ext == "nf2":
+        x, y, z, Bx, By, Bz, Bx_pot, By_pot, Bz_pot = load_nf2_file(file)
 
     # ------------------------------------------------------------
     dx = x[1] - x[0]  # Mm
@@ -580,7 +649,6 @@ def evaluate_single(nc_file, *args):
         z_Mm,
     )
 
-    result_pickle = os.path.join(result_dir, "result.pickle")
     with open(result_pickle, "wb") as f:
         pickle.dump(result, f)
 

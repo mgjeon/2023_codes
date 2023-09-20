@@ -14,6 +14,7 @@ parser.add_argument(
     help="path to nc file",
     default="/mnt/obsdata/isee_nlfff_v1.2/12673",
 )
+parser.add_argument("--ext", type=str, help="extension of result file", default="*.nc")
 parser.add_argument(
     "--result_dir", type=str, help="path to results.pickle", default="./result"
 )
@@ -24,7 +25,7 @@ parser.add_argument(
 args = parser.parse_args()
 
 if os.path.isdir(args.fname):
-    files = sorted(glob.glob(os.path.join(args.fname, "*.nc")))
+    files = sorted(glob.glob(os.path.join(args.fname, args.ext)))
 elif os.path.isfile(args.fname):
     files = [args.fname]
 
