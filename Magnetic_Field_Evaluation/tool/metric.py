@@ -6,7 +6,6 @@ import netCDF4
 import numpy as np
 from dateutil.parser import parse
 from matplotlib.colors import LogNorm
-
 from tool.evaluate import curl, divergence, laplacian
 
 
@@ -197,7 +196,7 @@ def draw_projection(
             vmax=vmax,
             cmap=cmap,
             aspect="auto",
-            extent=(0, Lx, 0, z_pixels * dz),
+            extent=(0, Lx, 0, z_Mm),
         )
         ax["A"].set_ylabel("Z [Mm]", fontsize=15)
 
@@ -208,7 +207,7 @@ def draw_projection(
             vmax=vmax,
             cmap=cmap,
             aspect="auto",
-            extent=(0, z_pixels * dz, 0, Ly),
+            extent=(0, z_Mm, 0, Ly),
         )
         ax["B"].set_ylabel("Y [Mm]", fontsize=15)
     else:
@@ -228,7 +227,7 @@ def draw_projection(
             norm=LogNorm(vmin=vmin, vmax=vmax),
             cmap=cmap,
             aspect="auto",
-            extent=(0, Lx, 0, z_pixels * dz),
+            extent=(0, Lx, 0, z_Mm),
         )
         ax["A"].set_ylabel("Z [Mm]", fontsize=15)
 
@@ -238,7 +237,7 @@ def draw_projection(
             norm=LogNorm(vmin=vmin, vmax=vmax),
             cmap=cmap,
             aspect="auto",
-            extent=(0, z_pixels * dz, 0, Ly),
+            extent=(0, z_Mm, 0, Ly),
         )
         ax["B"].set_ylabel("Y [Mm]", fontsize=15)
 

@@ -3,9 +3,8 @@ import glob
 import os
 import pickle
 
-from tqdm import tqdm
-
 from tool.metric import evaluate_single
+from tqdm import tqdm
 
 parser = argparse.ArgumentParser()
 
