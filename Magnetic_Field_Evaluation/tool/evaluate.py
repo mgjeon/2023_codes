@@ -50,14 +50,14 @@ def gradient(f, dx, dy, dz):
     gradient_xcomp = Dx(f, dx)
     gradient_ycomp = Dy(f, dy)
     gradient_zcomp = Dz(f, dz)
-    return np.stack([gradient_xcomp, gradient_ycomp, gradient_zcomp])
+    return gradient_xcomp, gradient_ycomp, gradient_zcomp
 
 def curl(Fx, Fy, Fz, dx, dy, dz):
     curl_xcomp = Dy(Fz, dy) - Dz(Fy, dz)
     curl_ycomp = Dz(Fx, dz) - Dx(Fz, dx)
     curl_zcomp = Dx(Fy, dx) - Dy(Fx, dy)
 
-    return np.stack([curl_xcomp, curl_ycomp, curl_zcomp])
+    return curl_xcomp, curl_ycomp, curl_zcomp
    
 def divergence(Fx, Fy, Fz, dx, dy, dz):
     return Dx(Fx, dx) + Dy(Fy, dy) + Dz(Fz, dz)
