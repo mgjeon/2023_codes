@@ -6,7 +6,7 @@ from sunpy.net import attrs as a
 from sunpy.timeseries import TimeSeries
 
 
-def plot_with_flares(series_results, noaanum: int, fig_path):
+def plot_with_flares(series_results, noaanum: int, fig_path, include_C=False):
     x_dates = date2num(series_results["date"])
     date_format = DateFormatter("%m/%d-%H:%M")
 
@@ -99,43 +99,97 @@ def plot_with_flares(series_results, noaanum: int, fig_path):
         + "\n in the cropped (5 pix) domain"
     )
 
-    my_labels = {"M": "M", "X": "X"}
-    for st, pt, et, cl in zip(
-        filtered_results_noaa["event_starttime"],
-        filtered_results_noaa["event_peaktime"],
-        filtered_results_noaa["event_endtime"],
-        filtered_results_noaa["fl_goescls"],
-    ):
-        if cl[0] == "M":
-            for ax in axs:
-                ax.axvline(
-                    x=date2num(pt.datetime),
-                    linestyle="dotted",
-                    c="green",
-                    label=my_labels["M"],
-                )
-                ax.axvspan(
-                    date2num(st.datetime),
-                    date2num(et.datetime),
-                    alpha=0.2,
-                    color="green",
-                )
-                my_labels["M"] = "_nolegend_"
-        elif cl[0] == "X":
-            for ax in axs:
-                ax.axvline(
-                    x=date2num(pt.datetime),
-                    linestyle="dotted",
-                    c="purple",
-                    label=my_labels["X"],
-                )
-                ax.axvspan(
-                    date2num(st.datetime),
-                    date2num(et.datetime),
-                    alpha=0.2,
-                    color="purple",
-                )
-                my_labels["X"] = "_nolegend_"
+    if include_C is True:
+        my_labels = {"X": "X", "M": "M", "C":"C"}
+        for st, pt, et, cl in zip(
+            filtered_results_noaa["event_starttime"],
+            filtered_results_noaa["event_peaktime"],
+            filtered_results_noaa["event_endtime"],
+            filtered_results_noaa["fl_goescls"],
+        ):
+            if cl[0] == "X":
+                for ax in axs:
+                    ax.axvline(
+                        x=date2num(pt.datetime),
+                        linestyle="dotted",
+                        c="red",
+                        label=my_labels["X"],
+                    )
+                    ax.axvspan(
+                        date2num(st.datetime),
+                        date2num(et.datetime),
+                        alpha=0.2,
+                        color="red",
+                    )
+                    my_labels["X"] = "_nolegend_"
+            elif cl[0] == "M":
+                for ax in axs:
+                    ax.axvline(
+                        x=date2num(pt.datetime),
+                        linestyle="dotted",
+                        c="green",
+                        label=my_labels["M"],
+                    )
+                    ax.axvspan(
+                        date2num(st.datetime),
+                        date2num(et.datetime),
+                        alpha=0.2,
+                        color="green",
+                    )
+                    my_labels["M"] = "_nolegend_"
+            elif cl[0] == "C":
+                for ax in axs:
+                    ax.axvline(
+                        x=date2num(pt.datetime),
+                        linestyle="dotted",
+                        c="blue",
+                        label=my_labels["C"],
+                    )
+                    ax.axvspan(
+                        date2num(st.datetime),
+                        date2num(et.datetime),
+                        alpha=0.2,
+                        color="blue",
+                    )
+                    my_labels["C"] = "_nolegend_"
+    elif include_C is False:
+        my_labels = {"X": "X", "M": "M"}
+        for st, pt, et, cl in zip(
+            filtered_results_noaa["event_starttime"],
+            filtered_results_noaa["event_peaktime"],
+            filtered_results_noaa["event_endtime"],
+            filtered_results_noaa["fl_goescls"],
+        ):
+            if cl[0] == "X":
+                for ax in axs:
+                    ax.axvline(
+                        x=date2num(pt.datetime),
+                        linestyle="dotted",
+                        c="red",
+                        label=my_labels["X"],
+                    )
+                    ax.axvspan(
+                        date2num(st.datetime),
+                        date2num(et.datetime),
+                        alpha=0.2,
+                        color="red",
+                    )
+                    my_labels["X"] = "_nolegend_"
+            elif cl[0] == "M":
+                for ax in axs:
+                    ax.axvline(
+                        x=date2num(pt.datetime),
+                        linestyle="dotted",
+                        c="green",
+                        label=my_labels["M"],
+                    )
+                    ax.axvspan(
+                        date2num(st.datetime),
+                        date2num(et.datetime),
+                        alpha=0.2,
+                        color="green",
+                    )
+                    my_labels["M"] = "_nolegend_"
 
     fig.suptitle(f"NOAA {noaanum}")
     fig.legend()
