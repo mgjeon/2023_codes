@@ -118,6 +118,9 @@ def calculate_metric(
     max_idx_0, norm_laplacian_B_max_0 = find_max_within(norm_laplacian_B, 0)
     max_idx_1, norm_laplacian_B_max_1 = find_max_within(norm_laplacian_B, 1)
     max_idx_2, norm_laplacian_B_max_2 = find_max_within(norm_laplacian_B, 2)
+    max_idx_3, norm_laplacian_B_max_3 = find_max_within(norm_laplacian_B, 3)
+    max_idx_4, norm_laplacian_B_max_4 = find_max_within(norm_laplacian_B, 4)
+    max_idx_5, norm_laplacian_B_max_5 = find_max_within(norm_laplacian_B, 5)
 
     return (
         total_energy,
@@ -135,6 +138,12 @@ def calculate_metric(
         norm_laplacian_B_max_1,
         max_idx_2,
         norm_laplacian_B_max_2,
+        max_idx_3,
+        norm_laplacian_B_max_3,
+        max_idx_4,
+        norm_laplacian_B_max_4,
+        max_idx_5,
+        norm_laplacian_B_max_5,
     )
 
 
@@ -265,24 +274,24 @@ def load_nf2_file(nf2_file):
     B = load_cube(nf2_file, progress=True)
     B_pot = get_potential_field(B[:, :, 0, 2], B.shape[2], batch_size=int(1e3))
 
-    Bx = B[..., 0]
-    By = B[..., 1]
-    Bz = B[..., 2]
+    Bx = B[..., 0]  # G
+    By = B[..., 1]  # G
+    Bz = B[..., 2]  # G
 
-    Bx_pot = B_pot[..., 0]
-    By_pot = B_pot[..., 1]
-    Bz_pot = B_pot[..., 2]
+    Bx_pot = B_pot[..., 0]  # G
+    By_pot = B_pot[..., 1]  # G
+    Bz_pot = B_pot[..., 2]  # G
 
     state = torch.load(nf2_file)
     Mm_per_pixel = state["Mm_per_pixel"]
     Nx, Ny, Nz = state["cube_shape"]
-    Lx = (Nx - 1) * Mm_per_pixel
-    Ly = (Ny - 1) * Mm_per_pixel
-    Lz = (Nz - 1) * Mm_per_pixel
+    Lx = (Nx - 1) * Mm_per_pixel  # Mm
+    Ly = (Ny - 1) * Mm_per_pixel  # Mm
+    Lz = (Nz - 1) * Mm_per_pixel  # Mm
 
-    x = np.linspace(0, Lx, Nx)
-    y = np.linspace(0, Ly, Ny)
-    z = np.linspace(0, Lz, Nz)
+    x = np.linspace(0, Lx, Nx)  # Mm
+    y = np.linspace(0, Ly, Ny)  # Mm
+    z = np.linspace(0, Lz, Nz)  # Mm
 
     return x, y, z, Bx, By, Bz, Bx_pot, By_pot, Bz_pot
 
@@ -409,6 +418,12 @@ def evaluate_single(file, *args):
         norm_laplacian_B_max_1,
         max_idx_2,
         norm_laplacian_B_max_2,
+        max_idx_3,
+        norm_laplacian_B_max_3,
+        max_idx_4,
+        norm_laplacian_B_max_4,
+        max_idx_5,
+        norm_laplacian_B_max_5,
     ) = calculate_metric(
         dx,
         dy,
@@ -445,6 +460,12 @@ def evaluate_single(file, *args):
         norm_laplacian_B_max_1_pot,
         max_idx_2_pot,
         norm_laplacian_B_max_2_pot,
+        max_idx_3_pot,
+        norm_laplacian_B_max_3_pot,
+        max_idx_4_pot,
+        norm_laplacian_B_max_4_pot,
+        max_idx_5_pot,
+        norm_laplacian_B_max_5_pot,
     ) = calculate_metric(
         dx,
         dy,
@@ -484,6 +505,12 @@ def evaluate_single(file, *args):
         "norm_laplacian_B_max_1": norm_laplacian_B_max_1,
         "max_idx_2": max_idx_2,
         "norm_laplacian_B_max_2": norm_laplacian_B_max_2,
+        "max_idx_3": max_idx_3,
+        "norm_laplacian_B_max_3": norm_laplacian_B_max_3,
+        "max_idx_4": max_idx_4,
+        "norm_laplacian_B_max_4": norm_laplacian_B_max_4,
+        "max_idx_5": max_idx_5,
+        "norm_laplacian_B_max_5": norm_laplacian_B_max_5,
         # B_pot
         "total_energy_pot": total_energy_pot,
         "loss_force_free_pot": loss_force_free_pot,
@@ -500,6 +527,12 @@ def evaluate_single(file, *args):
         "norm_laplacian_B_max_1_pot": norm_laplacian_B_max_1_pot,
         "max_idx_2_pot": max_idx_2_pot,
         "norm_laplacian_B_max_2_pot": norm_laplacian_B_max_2_pot,
+        "max_idx_3_pot": max_idx_3_pot,
+        "norm_laplacian_B_max_3_pot": norm_laplacian_B_max_3_pot,
+        "max_idx_4_pot": max_idx_4_pot,
+        "norm_laplacian_B_max_4_pot": norm_laplacian_B_max_4_pot,
+        "max_idx_5_pot": max_idx_5_pot,
+        "norm_laplacian_B_max_5_pot": norm_laplacian_B_max_5_pot,
     }
 
     # ------------------------------------------------------------

@@ -1,0 +1,1 @@
+bash nc_file.sh 12673
