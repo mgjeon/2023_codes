@@ -1,23 +1,23 @@
 {
-  "base_path": "/gpfs/gpfs0/robert.jarolim/full_disk/2266_nvp_v1",
+  "base_path": "/userhome/jeon_mg/workspace/_data/full_disk/2119_nvp_v1",
   "logging": {
-    "wandb_entity": "robert_jarolim",
+    "wandb_entity": "mgjeon",
     "wandb_project": "full_disk",
-    "wandb_name": "2266_nvp",
+    "wandb_name": "2119_nvp",
     "wandb_id": null
   },
   
   "data": {
     "type": "spherical",
     "synoptic_files": {
-      "Bp":  "/gpfs/gpfs0/robert.jarolim/data/nf2/fd_2266/hmi.b_synoptic.2266.Bp.fits",
-      "Br":  "/gpfs/gpfs0/robert.jarolim/data/nf2/fd_2266/hmi.synoptic_mr_polfil_720s.2266.Mr_polfil.fits",
-      "Bt":  "/gpfs/gpfs0/robert.jarolim/data/nf2/fd_2266/hmi.b_synoptic.2266.Bt.fits"
+      "Bp":  "/mnt/obsdata/nf2/synoptic_maps/hmi.b_synoptic.2119.Bp.fits",
+      "Br":  "/mnt/obsdata/nf2/synoptic_maps/hmi.synoptic_mr_polfil_720s.2119.Mr_polfil.fits",
+      "Bt":  "/mnt/obsdata/nf2/synoptic_maps/hmi.b_synoptic.2119.Bt.fits"
     },
     "full_disk_files": {
-      "Bp":  "/gpfs/gpfs0/robert.jarolim/data/nf2/fd_2266/hmi.b_720s.20230120_023600_TAI.Bp.fits",
-      "Br":  "/gpfs/gpfs0/robert.jarolim/data/nf2/fd_2266/hmi.b_720s.20230120_023600_TAI.Br.fits",
-      "Bt":  "/gpfs/gpfs0/robert.jarolim/data/nf2/fd_2266/hmi.b_720s.20230120_023600_TAI.Bt.fits"
+      "Bp":  "/mnt/obsdata/nf2/synoptic_maps/hmi.b_720s.20120123_033600_TAI.Bp.fits",
+      "Br":  "/mnt/obsdata/nf2/synoptic_maps/hmi.b_720s.20120123_033600_TAI.Br.fits",
+      "Bt":  "/mnt/obsdata/nf2/synoptic_maps/hmi.b_720s.20120123_033600_TAI.Bt.fits*"
     },
     "boundary": {
       "type":  "open"
@@ -25,7 +25,7 @@
     "height": 2.5,
     "b_norm": 500,
     "batch_size": {"boundary":  8192, "random":  16384},
-    "work_directory": "/tmp/nf2/2266_nvp_v1",
+    "work_directory": "/userhome/jeon_mg/workspace/_data/_tmp/nf2/2266_nvp_v1",
     "num_workers": 8
   },
 
