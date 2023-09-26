@@ -3,6 +3,9 @@ import json
 import os
 import shutil
 
+from setproctitle import setproctitle 
+setproctitle("nf2 extrapolate")
+
 import torch
 from pytorch_lightning import Trainer
 from pytorch_lightning.callbacks import ModelCheckpoint, LambdaCallback
@@ -55,6 +58,8 @@ elif args.data["type"] == 'solis':
 elif args.data["type"] == 'analytical':
     data_module = AnalyticDataModule(**args.data)
 elif args.data["type"] == 'spherical':
+    data_module = SphericalDataModule(**args.data)
+elif args.data["type"] == 'isee':
     data_module = SphericalDataModule(**args.data)
 else:
     raise NotImplementedError(f'Unknown data loader {args.data["type"]}')

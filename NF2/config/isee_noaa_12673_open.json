@@ -15,7 +15,7 @@
         "z": [0.0]
       },
       "Mm_per_pixel": 1,
-      "boundary": {"type":  "potential", "strides":  4},
+      "boundary": {"type":  "open"},
       "height": 257,
       "b_norm": 2500,
       "spatial_norm": 320,

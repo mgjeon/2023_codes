@@ -1,9 +1,9 @@
 {
-  "base_path": "/userhome/jeon_mg/workspace/_data/full_disk/2119_nvp_v1",
+  "base_path": "/userhome/jeon_mg/workspace/_data/full_disk/2119_vp",
   "logging": {
     "wandb_entity": "mgjeon",
     "wandb_project": "full_disk",
-    "wandb_name": "2119_nvp",
+    "wandb_name": "2119_vp",
     "wandb_id": null
   },
   
@@ -25,7 +25,7 @@
     "height": 2.5,
     "b_norm": 500,
     "batch_size": {"boundary":  8192, "random":  16384},
-    "work_directory": "/userhome/jeon_mg/workspace/_data/_tmp/nf2/2266_nvp_v1",
+    "work_directory": "/userhome/jeon_mg/workspace/_data/_tmp/nf2/2119_vp",
     "num_workers": 8
   },
 
@@ -33,7 +33,7 @@
     "dim": 512,
     "use_height_mapping": false,
     "spherical": true,
-    "use_vector_potential": false
+    "use_vector_potential": true
   },
 
   "training": {
