@@ -25,7 +25,7 @@
     "height": 2.5,
     "b_norm": 500,
     "batch_size": {"boundary":  8192, "random":  16384},
-    "work_directory": "/userhome/jeon_mg/workspace/_data/_tmp/nf2/2119",
+    "work_directory": "/userhome/jeon_mg/workspace/_data/_tmp/full_disk/2119_vp",
     "num_workers": 8
   },
 

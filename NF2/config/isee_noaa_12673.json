@@ -21,7 +21,7 @@
       "spatial_norm": 320,
       "batch_size": {"boundary":  1e4, "random":  2e4},
       "iterations": 1e5,
-      "work_directory": "/userhome/jeon_mg/workspace/_data/tmp/nf2/isee/noaa_12673",
+      "work_directory": "/userhome/jeon_mg/workspace/_data/_tmp/isee/noaa_12673",
       "num_workers": 8
     },
   
@@ -31,11 +31,13 @@
     },
   
     "training": {
+      "epochs": 1,
       "lambda_b": {"start": 1e3, "end": 1, "iterations" : 5e4},
       "lambda_div": 1e-1,
       "lambda_ff": 1e-1,
       "lambda_height_reg": 1e-3,
       "validation_interval": 1e4,
+      "check_val_every_n_epoch": 1,
       "lr_params": {"start": 5e-4, "end": 5e-5, "decay_iterations": 1e5}
     }
   }
