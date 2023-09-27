@@ -1,9 +1,10 @@
 {
-  "base_path": "/userhome/jeon_mg/workspace/_data/sharp/noaa_12673",
+  "base_path": "/userhome/jeon_mg/workspace/_data/sharp/noaa_12673/20170906_083600",
+
   "logging": {
     "wandb_entity": "mgjeon",
     "wandb_project": "sharp",
-    "wandb_name": "noaa_12673",
+    "wandb_name": "noaa_12673_20170906_083600",
     "wandb_id": null
   },
 
@@ -28,24 +29,18 @@
     "spatial_norm": 160,
     "batch_size": {"boundary":  1e4, "random":  2e4},
     "iterations": 1e5,
-    "work_directory": "/userhome/jeon_mg/workspace/_data/_tmp/sharp/noaa_12673",
+    "work_directory": "/userhome/jeon_mg/workspace/_data/_tmp/sharp/noaa_12673/20170906_083600",
     "num_workers": 8
   },
 
   "model": {
-    "dim": 256,
-    "spherical": false,
-    "use_height_mapping": false,
-    "use_vector_potential": false,
-    "use_positional_encoding": false
+    "dim": 256
   },
 
   "training": {
     "lambda_b": {"start": 1e3, "end": 1, "iterations" : 5e4},
     "lambda_div": 1e-1,
     "lambda_ff": 1e-1,
-    "lambda_min_energy": 0,
-    "lambda_height_reg": 0,
     "validation_interval": 1e4,
     "lr_params": {"start": 5e-4, "end": 5e-5, "decay_iterations": 1e5}
   }

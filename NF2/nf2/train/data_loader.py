@@ -298,6 +298,28 @@ class NumpyDataModule(SlicesDataModule):
         super().__init__(b_slices, *args, **kwargs)
 
 
+from nf2.data.isee import nlfff
+
+class ISEEDataModule(SlicesDataModule):
+
+    def __init__(self, data_path, slices=None, bin=1, use_bz=False, components=False, *args, **kwargs):
+        data = nlfff(data_path)
+        b = np.stack([data.bx, data.by, data.bz], -1)
+        b_slices = np.array(b)
+        if slices:
+            b_slices = b_slices[:, :, slices]
+        if bin > 1:
+            b_slices = block_reduce(b_slices, (bin, bin, 1, 1), np.mean)
+        if use_bz:
+            b_slices[:, :, 1:, 0] = None
+            b_slices[:, :, 1:, 1] = None
+        if components:
+            for i, c in enumerate(components):
+                filter = [i for i in [0, 1, 2] if i not in c]
+                b_slices[:, :, i, filter] = None
+        super().__init__(b_slices, *args, **kwargs)
+
+
 class AnalyticDataModule(LightningDataModule):
 
     def __init__(self, case, height, spatial_norm, b_norm, work_directory, batch_size={"boundary": 1e4, "random": 2e4},
