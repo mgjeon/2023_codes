@@ -14,6 +14,7 @@ from tool.nf2.potential.potential_field import get_potential_field
 
 setproctitle("nf2")
 
+
 def find_max_within(array_3d, h):
     if h == 0:
         array_h = array_3d

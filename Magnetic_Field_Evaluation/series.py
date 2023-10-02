@@ -32,8 +32,8 @@ result_pickle = os.path.join(args.result_dir, "series_result.pickle")
 if os.path.exists(result_pickle):
     with open(result_pickle, "rb") as f:
         series_results = pickle.load(f)
-        
-    if len(series_results['date']) > 1:
+
+    if len(series_results["date"]) > 1:
         os.makedirs(args.fig_dir, exist_ok=True)
         fig_path = os.path.join(args.fig_dir, f"NOAA_{args.noaanum}.png")
         plot_with_flares(series_results, args.noaanum, fig_path, include_C=False)
@@ -49,7 +49,7 @@ else:
 
     for file in tqdm(files):
         results.append(evaluate_single(file, args))
-    
+
     series_results = {k: [r[k] for r in results] for k in results[0].keys()}
 
     os.makedirs(args.result_dir, exist_ok=True)
@@ -57,7 +57,7 @@ else:
     with open(result_pickle, "wb") as f:
         pickle.dump(series_results, f)
 
-    if len(series_results['date']) > 1:
+    if len(series_results["date"]) > 1:
         os.makedirs(args.fig_dir, exist_ok=True)
         fig_path = os.path.join(args.fig_dir, f"NOAA_{args.noaanum}.png")
         plot_with_flares(series_results, args.noaanum, fig_path, include_C=False)

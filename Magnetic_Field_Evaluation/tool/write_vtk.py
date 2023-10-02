@@ -2,6 +2,7 @@ import netCDF4
 import numpy as np
 import pyvista as pv
 
+
 def create_mesh(nc_file):
     nc = netCDF4.Dataset(nc_file, "r")
 

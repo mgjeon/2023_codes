@@ -100,7 +100,7 @@ def plot_with_flares(series_results, noaanum: int, fig_path, include_C=False):
     )
 
     if include_C is True:
-        my_labels = {"X": "X", "M": "M", "C":"C"}
+        my_labels = {"X": "X", "M": "M", "C": "C"}
         for st, pt, et, cl in zip(
             filtered_results_noaa["event_starttime"],
             filtered_results_noaa["event_peaktime"],
