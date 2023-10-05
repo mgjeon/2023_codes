@@ -1,4 +1,5 @@
 #! /bin/bash
+# https://github.com/conda/conda/issues/9628#issuecomment-1608913117
 # Extract installed pip packages
 pip_packages=$(conda env export | grep -A9999 ".*- pip:" | grep -v "^prefix: ")
 
