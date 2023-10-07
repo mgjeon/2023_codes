@@ -113,11 +113,19 @@ def calculate_metric(
     # laplacian
     norm_laplacian_B_mean = norm_laplacian_B.mean()
     max_idx_0, norm_laplacian_B_max_0 = find_max_within(norm_laplacian_B, 0)
-    max_idx_1, norm_laplacian_B_max_1 = find_max_within(norm_laplacian_B, 1)
-    max_idx_2, norm_laplacian_B_max_2 = find_max_within(norm_laplacian_B, 2)
-    max_idx_3, norm_laplacian_B_max_3 = find_max_within(norm_laplacian_B, 3)
-    max_idx_4, norm_laplacian_B_max_4 = find_max_within(norm_laplacian_B, 4)
+    # max_idx_1, norm_laplacian_B_max_1 = find_max_within(norm_laplacian_B, 1)
+    # max_idx_2, norm_laplacian_B_max_2 = find_max_within(norm_laplacian_B, 2)
+    # max_idx_3, norm_laplacian_B_max_3 = find_max_within(norm_laplacian_B, 3)
+    # max_idx_4, norm_laplacian_B_max_4 = find_max_within(norm_laplacian_B, 4)
     max_idx_5, norm_laplacian_B_max_5 = find_max_within(norm_laplacian_B, 5)
+    max_idx_10, norm_laplacian_B_max_10 = find_max_within(norm_laplacian_B, 10)
+    max_idx_50, norm_laplacian_B_max_50 = find_max_within(norm_laplacian_B, 50)
+
+    normalized_norm_laplacian_B = np.divide(norm_laplacian_B, norm_B, where=norm_B!=0)
+    normalized_max_idx_0, normalized_norm_laplacian_B_0 = find_max_within(normalized_norm_laplacian_B, 0)
+    normalized_max_idx_5, normalized_norm_laplacian_B_5 = find_max_within(normalized_norm_laplacian_B, 5)
+    normalized_max_idx_10, normalized_norm_laplacian_B_10 = find_max_within(normalized_norm_laplacian_B, 10)
+    normalized_max_idx_50, normalized_norm_laplacian_B_50 = find_max_within(normalized_norm_laplacian_B, 50)
 
     return (
         total_energy,
@@ -131,16 +139,21 @@ def calculate_metric(
         norm_laplacian_B_mean,
         max_idx_0,
         norm_laplacian_B_max_0,
-        max_idx_1,
-        norm_laplacian_B_max_1,
-        max_idx_2,
-        norm_laplacian_B_max_2,
-        max_idx_3,
-        norm_laplacian_B_max_3,
-        max_idx_4,
-        norm_laplacian_B_max_4,
         max_idx_5,
         norm_laplacian_B_max_5,
+        max_idx_10,
+        norm_laplacian_B_max_10,
+        max_idx_50,
+        norm_laplacian_B_max_50,
+        normalized_max_idx_0, 
+        normalized_norm_laplacian_B_0,
+        normalized_max_idx_5, 
+        normalized_norm_laplacian_B_5,
+        normalized_max_idx_10, 
+        normalized_norm_laplacian_B_10,
+        normalized_max_idx_50, 
+        normalized_norm_laplacian_B_50,
+        normalized_norm_laplacian_B
     )
 
 
@@ -411,16 +424,21 @@ def evaluate_single(file, *args):
         norm_laplacian_B_mean,
         max_idx_0,
         norm_laplacian_B_max_0,
-        max_idx_1,
-        norm_laplacian_B_max_1,
-        max_idx_2,
-        norm_laplacian_B_max_2,
-        max_idx_3,
-        norm_laplacian_B_max_3,
-        max_idx_4,
-        norm_laplacian_B_max_4,
         max_idx_5,
         norm_laplacian_B_max_5,
+        max_idx_10,
+        norm_laplacian_B_max_10,
+        max_idx_50,
+        norm_laplacian_B_max_50,
+        normalized_max_idx_0, 
+        normalized_norm_laplacian_B_0,
+        normalized_max_idx_5, 
+        normalized_norm_laplacian_B_5,
+        normalized_max_idx_10, 
+        normalized_norm_laplacian_B_10,
+        normalized_max_idx_50, 
+        normalized_norm_laplacian_B_50,
+        normalized_norm_laplacian_B
     ) = calculate_metric(
         dx,
         dy,
@@ -453,16 +471,21 @@ def evaluate_single(file, *args):
         norm_laplacian_B_mean_pot,
         max_idx_0_pot,
         norm_laplacian_B_max_0_pot,
-        max_idx_1_pot,
-        norm_laplacian_B_max_1_pot,
-        max_idx_2_pot,
-        norm_laplacian_B_max_2_pot,
-        max_idx_3_pot,
-        norm_laplacian_B_max_3_pot,
-        max_idx_4_pot,
-        norm_laplacian_B_max_4_pot,
         max_idx_5_pot,
         norm_laplacian_B_max_5_pot,
+        max_idx_10_pot,
+        norm_laplacian_B_max_10_pot,
+        max_idx_50_pot,
+        norm_laplacian_B_max_50_pot,
+        normalized_max_idx_0_pot, 
+        normalized_norm_laplacian_B_0_pot,
+        normalized_max_idx_5_pot, 
+        normalized_norm_laplacian_B_5_pot,
+        normalized_max_idx_10_pot, 
+        normalized_norm_laplacian_B_10_pot,
+        normalized_max_idx_50_pot, 
+        normalized_norm_laplacian_B_50_pot,
+        normalized_norm_laplacian_B_pot
     ) = calculate_metric(
         dx,
         dy,
@@ -498,38 +521,30 @@ def evaluate_single(file, *args):
         "norm_laplacian_B_mean": norm_laplacian_B_mean,
         "max_idx_0": max_idx_0,
         "norm_laplacian_B_max_0": norm_laplacian_B_max_0,
-        "max_idx_1": max_idx_1,
-        "norm_laplacian_B_max_1": norm_laplacian_B_max_1,
-        "max_idx_2": max_idx_2,
-        "norm_laplacian_B_max_2": norm_laplacian_B_max_2,
-        "max_idx_3": max_idx_3,
-        "norm_laplacian_B_max_3": norm_laplacian_B_max_3,
-        "max_idx_4": max_idx_4,
-        "norm_laplacian_B_max_4": norm_laplacian_B_max_4,
         "max_idx_5": max_idx_5,
         "norm_laplacian_B_max_5": norm_laplacian_B_max_5,
+        "max_idx_10": max_idx_10,
+        "norm_laplacian_B_max_10": norm_laplacian_B_max_10,
+        "max_idx_50": max_idx_50,
+        "norm_laplacian_B_max_50": norm_laplacian_B_max_50,
+        "normalized_max_idx_0": normalized_max_idx_0,
+        "normalized_norm_laplacian_B_max_0": normalized_norm_laplacian_B_0,
+        "normalized_max_idx_5": normalized_max_idx_5,
+        "normalized_norm_laplacian_B_max_5": normalized_norm_laplacian_B_5,
+        "normalized_max_idx_10": normalized_max_idx_10,
+        "normalized_norm_laplacian_B_max_10": normalized_norm_laplacian_B_10,
+        "normalized_max_idx_50": normalized_max_idx_50,
+        "normalized_norm_laplacian_B_max_50": normalized_norm_laplacian_B_50,
         # B_pot
         "total_energy_pot": total_energy_pot,
-        "loss_force_free_pot": loss_force_free_pot,
-        "loss_force_free_mean_pot": loss_force_free_mean_pot,
-        "loss_div_free_pot": loss_div_free_pot,
-        "loss_div_free_mean_pot": loss_div_free_mean_pot,
-        "sigma_J_pot": sigma_J_pot,
-        "theta_J_pot": theta_J_pot,
-        "theta_i_mean_pot": theta_i_mean_pot,
-        "norm_laplacian_B_mean_pot": norm_laplacian_B_mean_pot,
-        "max_idx_0_pot": max_idx_0_pot,
-        "norm_laplacian_B_max_0_pot": norm_laplacian_B_max_0_pot,
-        "max_idx_1_pot": max_idx_1_pot,
-        "norm_laplacian_B_max_1_pot": norm_laplacian_B_max_1_pot,
-        "max_idx_2_pot": max_idx_2_pot,
-        "norm_laplacian_B_max_2_pot": norm_laplacian_B_max_2_pot,
-        "max_idx_3_pot": max_idx_3_pot,
-        "norm_laplacian_B_max_3_pot": norm_laplacian_B_max_3_pot,
-        "max_idx_4_pot": max_idx_4_pot,
-        "norm_laplacian_B_max_4_pot": norm_laplacian_B_max_4_pot,
-        "max_idx_5_pot": max_idx_5_pot,
-        "norm_laplacian_B_max_5_pot": norm_laplacian_B_max_5_pot,
+        # "loss_force_free_pot": loss_force_free_pot,
+        # "loss_force_free_mean_pot": loss_force_free_mean_pot,
+        # "loss_div_free_pot": loss_div_free_pot,
+        # "loss_div_free_mean_pot": loss_div_free_mean_pot,
+        # "sigma_J_pot": sigma_J_pot,
+        # "theta_J_pot": theta_J_pot,
+        # "theta_i_mean_pot": theta_i_mean_pot,
+        # "norm_laplacian_B_mean_pot": norm_laplacian_B_mean_pot,
     }
 
     # ------------------------------------------------------------
@@ -629,7 +644,32 @@ def evaluate_single(file, *args):
         Lz,
         z_Mm,
     )
-
+    draw_projection(
+        norm_B,
+        r"$|\mathbf{B}|$" + "(G/Mm^2)",
+        os.path.join(result_dir, "norm_B.png"),
+        dx,
+        dy,
+        dz,
+        Lx,
+        Ly,
+        Lz,
+        z_Mm,
+        log=False
+    )
+    draw_projection(
+        normalized_norm_laplacian_B,
+        r"$|\nabla^2 \mathbf{B}|/|\mathbf{B}|$" + "(Mm^-2)",
+        os.path.join(result_dir, "normalized_laplacian_B.png"),
+        dx,
+        dy,
+        dz,
+        Lx,
+        Ly,
+        Lz,
+        z_Mm
+    )
+    #--------------------------------------------------------
     draw_projection(
         norm_J_pot,
         r"$|\nabla \times \mathbf{B}|$" + " pot (G/Mm)",
@@ -677,6 +717,32 @@ def evaluate_single(file, *args):
         Ly,
         Lz,
         z_Mm,
+    )
+    
+    draw_projection(
+        norm_B_pot,
+        r"$|\mathbf{B}|$" + "pot (G/Mm^2)",
+        os.path.join(result_dir, "norm_B_pot.png"),
+        dx,
+        dy,
+        dz,
+        Lx,
+        Ly,
+        Lz,
+        z_Mm,
+        log=False
+    )
+    draw_projection(
+        normalized_norm_laplacian_B_pot,
+        r"$|\nabla^2 \mathbf{B}|/|\mathbf{B}|$" + " pot (Mm^-2)",
+        os.path.join(result_dir, "normalized_laplacian_B_pot.png"),
+        dx,
+        dy,
+        dz,
+        Lx,
+        Ly,
+        Lz,
+        z_Mm
     )
 
     with open(result_pickle, "wb") as f:
