@@ -34,7 +34,7 @@ def plot_with_flares(series_results, noaanum: int, fig_path, include_C=False):
 
     fig.autofmt_xdate()
 
-    msize = 2.5
+    msize = 5
 
     ax = axs[0]
     ax.plot(
@@ -47,43 +47,19 @@ def plot_with_flares(series_results, noaanum: int, fig_path, include_C=False):
 
     ax = axs[1]
     ax.plot(
-        x_dates, np.array(series_results["norm_laplacian_B_max_0"]), "ko-", markersize=2
+        x_dates,
+        np.array(series_results["norm_laplacian_B_max_0"]),
+        "ko-",
+        markersize=msize,
     )
-    ax.set_ylabel("max " + r"|$\nabla^2 \mathbf{B}$|" + "\n in the whole domain")
+    ax.set_ylabel(
+        "max "
+        + r"|$\nabla^2 \mathbf{B}$|"
+        + " [G/Mm$^2$]"
+        + "\n in the whole domain"
+    )
 
     ax = axs[2]
-    # The cropped (1 pix) domain is the domain whose border (1 pixel) is removed
-    # to reduce the boundary effect of the finite difference method.
-    ax.plot(
-        x_dates,
-        np.array(series_results["norm_laplacian_B_max_1"]),
-        "ko-",
-        markersize=msize,
-    )
-    ax.set_ylabel(
-        "max "
-        + r"|$\nabla^2 \mathbf{B}$|"
-        + " [G/Mm$^2$]"
-        + "\n in the cropped (1 pix) domain"
-    )
-
-    ax = axs[3]
-    # The cropped (3 pix) domain is the domain whose border (3 pixel) is removed
-    # to reduce the boundary effect of the finite difference method.
-    ax.plot(
-        x_dates,
-        np.array(series_results["norm_laplacian_B_max_3"]),
-        "ko-",
-        markersize=msize,
-    )
-    ax.set_ylabel(
-        "max "
-        + r"|$\nabla^2 \mathbf{B}$|"
-        + " [G/Mm$^2$]"
-        + "\n in the cropped (3 pix) domain"
-    )
-
-    ax = axs[4]
     # The cropped (5 pix) domain is the domain whose border (5 pixel) is removed
     # to reduce the boundary effect of the finite difference method.
     ax.plot(
@@ -99,6 +75,36 @@ def plot_with_flares(series_results, noaanum: int, fig_path, include_C=False):
         + "\n in the cropped (5 pix) domain"
     )
 
+    ax = axs[3]
+    ax.plot(
+        x_dates,
+        np.array(series_results["normalized_norm_laplacian_B_max_0"]),
+        "ko-",
+        markersize=msize,
+    )
+    ax.set_ylabel(
+        "max "
+        + r"$|\nabla^2 \mathbf{B}|/|\mathbf{B}|$"
+        + " [Mm$^{-2}$]"
+        + "\n in the whole domain"
+    )
+
+    ax = axs[4]
+    # The cropped (5 pix) domain is the domain whose border (5 pixel) is removed
+    # to reduce the boundary effect of the finite difference method.
+    ax.plot(
+        x_dates,
+        np.array(series_results["normalized_norm_laplacian_B_max_5"]),
+        "ko-",
+        markersize=msize,
+    )
+    ax.set_ylabel(
+        "max "
+        + r"$|\nabla^2 \mathbf{B}|/|\mathbf{B}|$"
+        + " [Mm$^{-2}$]"
+        + "\n in the cropped (5 pix) domain"
+    )
+    
     if include_C is True:
         my_labels = {"X": "X", "M": "M", "C": "C"}
         for st, pt, et, cl in zip(

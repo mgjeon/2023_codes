@@ -122,10 +122,10 @@ def calculate_metric(
     max_idx_50, norm_laplacian_B_max_50 = find_max_within(norm_laplacian_B, 50)
 
     normalized_norm_laplacian_B = np.divide(norm_laplacian_B, norm_B, where=norm_B!=0)
-    normalized_max_idx_0, normalized_norm_laplacian_B_0 = find_max_within(normalized_norm_laplacian_B, 0)
-    normalized_max_idx_5, normalized_norm_laplacian_B_5 = find_max_within(normalized_norm_laplacian_B, 5)
-    normalized_max_idx_10, normalized_norm_laplacian_B_10 = find_max_within(normalized_norm_laplacian_B, 10)
-    normalized_max_idx_50, normalized_norm_laplacian_B_50 = find_max_within(normalized_norm_laplacian_B, 50)
+    normalized_max_idx_0, normalized_norm_laplacian_B_max_0 = find_max_within(normalized_norm_laplacian_B, 0)
+    normalized_max_idx_5, normalized_norm_laplacian_B_max_5 = find_max_within(normalized_norm_laplacian_B, 5)
+    normalized_max_idx_10, normalized_norm_laplacian_B_max_10 = find_max_within(normalized_norm_laplacian_B, 10)
+    normalized_max_idx_50, normalized_norm_laplacian_B_max_50 = find_max_within(normalized_norm_laplacian_B, 50)
 
     return (
         total_energy,
@@ -146,13 +146,13 @@ def calculate_metric(
         max_idx_50,
         norm_laplacian_B_max_50,
         normalized_max_idx_0, 
-        normalized_norm_laplacian_B_0,
+        normalized_norm_laplacian_B_max_0,
         normalized_max_idx_5, 
-        normalized_norm_laplacian_B_5,
+        normalized_norm_laplacian_B_max_5,
         normalized_max_idx_10, 
-        normalized_norm_laplacian_B_10,
+        normalized_norm_laplacian_B_max_10,
         normalized_max_idx_50, 
-        normalized_norm_laplacian_B_50,
+        normalized_norm_laplacian_B_max_50,
         normalized_norm_laplacian_B
     )
 
@@ -431,13 +431,13 @@ def evaluate_single(file, *args):
         max_idx_50,
         norm_laplacian_B_max_50,
         normalized_max_idx_0, 
-        normalized_norm_laplacian_B_0,
+        normalized_norm_laplacian_B_max_0,
         normalized_max_idx_5, 
-        normalized_norm_laplacian_B_5,
+        normalized_norm_laplacian_B_max_5,
         normalized_max_idx_10, 
-        normalized_norm_laplacian_B_10,
+        normalized_norm_laplacian_B_max_10,
         normalized_max_idx_50, 
-        normalized_norm_laplacian_B_50,
+        normalized_norm_laplacian_B_max_50,
         normalized_norm_laplacian_B
     ) = calculate_metric(
         dx,
@@ -528,13 +528,13 @@ def evaluate_single(file, *args):
         "max_idx_50": max_idx_50,
         "norm_laplacian_B_max_50": norm_laplacian_B_max_50,
         "normalized_max_idx_0": normalized_max_idx_0,
-        "normalized_norm_laplacian_B_max_0": normalized_norm_laplacian_B_0,
+        "normalized_norm_laplacian_B_max_0": normalized_norm_laplacian_B_max_0,
         "normalized_max_idx_5": normalized_max_idx_5,
-        "normalized_norm_laplacian_B_max_5": normalized_norm_laplacian_B_5,
+        "normalized_norm_laplacian_B_max_5": normalized_norm_laplacian_B_max_5,
         "normalized_max_idx_10": normalized_max_idx_10,
-        "normalized_norm_laplacian_B_max_10": normalized_norm_laplacian_B_10,
+        "normalized_norm_laplacian_B_max_10": normalized_norm_laplacian_B_max_10,
         "normalized_max_idx_50": normalized_max_idx_50,
-        "normalized_norm_laplacian_B_max_50": normalized_norm_laplacian_B_50,
+        "normalized_norm_laplacian_B_max_50": normalized_norm_laplacian_B_max_50,
         # B_pot
         "total_energy_pot": total_energy_pot,
         # "loss_force_free_pot": loss_force_free_pot,
